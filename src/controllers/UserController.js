@@ -1,4 +1,5 @@
 const UserSevice = require('../services/UserSevices')
+const JwtSevice = require('../services/JwtSevice')
 
 const createUser = async (req, res) => {
   try {
@@ -91,8 +92,57 @@ const deleteUser = async (req, res) => {
           message: 'The userId is required'
         })
       }
-      console.log('userId:', userId)
       const response = await UserSevice.deleteUser(userId)
+      
+      return res.status(200).json(response)
+  } catch(e){
+      return res.status(404).json({
+        message: e
+      })
+  }
+}
+
+const getAllUser = async (req, res) => {
+  try {
+      const response = await UserSevice.getAllUser()
+
+      return res.status(200).json(response)
+  } catch(e){
+      return res.status(404).json({
+        message: e
+      })
+  }
+}
+
+const getDetailsUser = async (req, res) => {
+  try {
+      const userId = req.params.id
+      if(!userId) {
+        return res.status(200).json({
+          status: 'ERR',
+          message: 'The userId is required'
+        })
+      }
+      const response = await UserSevice.getDetailsUser(userId)
+      
+      return res.status(200).json(response)
+  } catch(e){
+      return res.status(404).json({
+        message: e
+      })
+  }
+}
+
+const refreshToken = async (req, res) => {
+  try {
+      const token = req.headers.token.split(' ')[1]
+      if(!token) {
+        return res.status(200).json({
+          status: 'ERR',
+          message: 'The token is required'
+        })
+      }
+      const response = await JwtSevice.refreshTokenJwtService(token)
       
       return res.status(200).json(response)
   } catch(e){
@@ -106,5 +156,8 @@ module.exports = {
   createUser,
   loginUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getAllUser,
+  getDetailsUser,
+  refreshToken
 }
