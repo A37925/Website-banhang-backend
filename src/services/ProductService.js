@@ -107,14 +107,20 @@ const deleteProduct = (id) => {
   })
 } 
 
-const getAllProduct = (id) => {
+const getAllProduct = (limit = 2, page = 1) => {
+  console.log(limit)
   return new Promise(async(resolve, reject) => {
     try {
-      const allProduct = await Product.find()
+      const totalProduct = await Product.countDocuments()
+      const allProduct = await Product.find().limit(limit).skip(page * limit)
       resolve({
         status: 'OK',
         message: 'SUCCESS',
-        data: allProduct
+        data: allProduct,
+        total: totalProduct,
+        pageCurrent: Number(page + 1),
+        //tính tổng số trang. ceil (làm tròn lên)
+        totalPage: Math.ceil(totalProduct / limit)
       })
     } catch(e){
       reject(e);
