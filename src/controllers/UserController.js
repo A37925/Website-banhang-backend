@@ -1,5 +1,5 @@
-const UserSevice = require('../services/UserSevices')
-const JwtSevice = require('../services/JwtSevice')
+const UserService = require('../services/UserServices')
+const JwtService = require('../services/JwtService')
 
 const createUser = async (req, res) => {
   try {
@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
           })
       }
       console.log('isCheckEmail', isCheckEmail)
-      const response = await UserSevice.createUser(req.body)
+      const response = await UserService.createUser(req.body)
       return res.status(200).json(response)
   } catch(e){
       return res.status(404).json({
@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
           })
       }
       console.log('isCheckEmail', isCheckEmail)
-      const response = await UserSevice.loginUser(req.body)
+      const response = await UserService.loginUser(req.body)
       return res.status(200).json(response)
   } catch(e){
       return res.status(404).json({
@@ -74,7 +74,7 @@ const updateUser = async (req, res) => {
       console.log('userId:', userId)
       console.log('data:', data)
       
-      const response = await UserSevice.updateUser(userId,data)
+      const response = await UserService.updateUser(userId,data)
       return res.status(200).json(response)
   } catch(e){
       return res.status(404).json({
@@ -92,7 +92,7 @@ const deleteUser = async (req, res) => {
           message: 'The userId is required'
         })
       }
-      const response = await UserSevice.deleteUser(userId)
+      const response = await UserService.deleteUser(userId)
       
       return res.status(200).json(response)
   } catch(e){
@@ -104,7 +104,7 @@ const deleteUser = async (req, res) => {
 
 const getAllUser = async (req, res) => {
   try {
-      const response = await UserSevice.getAllUser()
+      const response = await UserService.getAllUser()
 
       return res.status(200).json(response)
   } catch(e){
@@ -123,7 +123,7 @@ const getDetailsUser = async (req, res) => {
           message: 'The userId is required'
         })
       }
-      const response = await UserSevice.getDetailsUser(userId)
+      const response = await UserService.getDetailsUser(userId)
       
       return res.status(200).json(response)
   } catch(e){
@@ -142,7 +142,7 @@ const refreshToken = async (req, res) => {
           message: 'The token is required'
         })
       }
-      const response = await JwtSevice.refreshTokenJwtService(token)
+      const response = await JwtService.refreshTokenJwtService(token)
       
       return res.status(200).json(response)
   } catch(e){
